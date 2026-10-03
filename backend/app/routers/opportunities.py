@@ -53,3 +53,27 @@ def get_opportunity(opportunity_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Opportunity not found")
 
     return opportunity
+
+
+@router.put("/{opportunity_id}", response_model=schemas.OpportunityResponse)
+def update_opportunity(
+    opportunity_id: int,
+    opportunity: schemas.OpportunityCreate,
+    db: Session = Depends(get_db),
+):
+    existing_opportunity = (
+        db.query(models.ResearchOpportunity)
+        .filter(models.ResearchOpportunity.id == opportunity_id)
+        .first()
+    )
+
+    if not existing_opportunity:
+        raise HTTPException(status_code=404, detail="Opportunity not found")
+
+    for key, value in opportunity.model_dump().items():
+        setattr(existing_opportunity, key, value)
+
+    db.commit()
+    db.refresh(existing_opportunity)
+
+    return existing_opportunity
