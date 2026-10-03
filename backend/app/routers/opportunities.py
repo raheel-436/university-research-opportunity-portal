@@ -30,3 +30,12 @@ def create_opportunity(
     db.refresh(new_opportunity)  # get newly generated id
 
     return new_opportunity
+
+
+@router.get("", response_model=list[schemas.OpportunityResponse])
+def get_opportunities(db: Session = Depends(get_db)):
+    opportunities = db.query(
+        models.ResearchOpportunity
+    ).all()  # from research_opportunities tables, get all records
+
+    return opportunities
