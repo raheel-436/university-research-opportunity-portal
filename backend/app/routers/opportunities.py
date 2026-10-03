@@ -50,7 +50,7 @@ def get_opportunity(opportunity_id: int, db: Session = Depends(get_db)):
     )
 
     if not opportunity:
-        raise HTTPException(status_code=404, detail="Opportunity not found")
+        raise HTTPException(status_code=404, detail="Opportunity not found!")
 
     return opportunity
 
@@ -68,7 +68,7 @@ def update_opportunity(
     )
 
     if not existing_opportunity:
-        raise HTTPException(status_code=404, detail="Opportunity not found")
+        raise HTTPException(status_code=404, detail="Opportunity not found!")
 
     for key, value in opportunity.model_dump().items():
         setattr(existing_opportunity, key, value)
@@ -77,3 +77,23 @@ def update_opportunity(
     db.refresh(existing_opportunity)
 
     return existing_opportunity
+
+
+@router.delete("/{opportunity_id}")
+def delete_opportunity(
+    opportunity_id: int,
+    db: Session = Depends(get_db),
+):
+    opportunity = (
+        db.query(models.ResearchOpportunity)
+        .filter(models.ResearchOpportunity.id == opportunity_id)
+        .first()
+    )
+
+    if not opportunity:
+        raise HTTPException(status_code=404, detail="Opportunity not found")
+
+    db.delete(opportunity)
+    db.commit()
+
+    return {"message": "Opportunity deleted successfully!"}
