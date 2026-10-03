@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends, status, HTTPException
 from sqlalchemy.orm import Session
 
 from ..database import SessionLocal
@@ -39,3 +39,17 @@ def get_opportunities(db: Session = Depends(get_db)):
     ).all()  # from research_opportunities tables, get all records
 
     return opportunities
+
+
+@router.get("/{opportunity_id}", response_model=schemas.OpportunityResponse)
+def get_opportunity(opportunity_id: int, db: Session = Depends(get_db)):
+    opportunity = (
+        db.query(models.ResearchOpportunity)
+        .filter(models.ResearchOpportunity.id == opportunity_id)
+        .first()
+    )
+
+    if not opportunity:
+        raise HTTPException(status_code=404, detail="Opportunity not found")
+
+    return opportunity
