@@ -9,7 +9,7 @@ function Navbar() {
         </div>
 
         <span className="font-serif text-xl text-[#eaf1ed]">
-          ResearchHub
+          Research Portal
         </span>
       </div>
 
