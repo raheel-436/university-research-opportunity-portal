@@ -1,10 +1,10 @@
 function App() {
-  
   return (
-    <>
-      <h1>University Research Opportunity Portal</h1>
-      <p>Welcome!</p>
-    </>
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center">
+      <h1 className="text-4xl font-bold text-white">
+        University Research Opportunity Portal
+      </h1>
+    </div>
   )
 }
 
