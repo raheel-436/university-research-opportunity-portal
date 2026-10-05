@@ -5,6 +5,7 @@ import Hero from "../components/Hero"
 import Stats from "../components/Stats"
 import CategoryFilters from "../components/CategoryFilters"
 import OpportunityGrid from "../components/OpportunityGrid"
+import OpportunityDrawer from "../components/OpportunityDrawer"
 
 const sampleOpportunities = [
     {
@@ -100,6 +101,7 @@ const sampleOpportunities = [
 
 const Home = () => {
     const [selectedCategory, setSelectedCategory] = useState("All")
+    const [selectedOpportunity, setSelectedOpportunity] = useState(null)
     const categories = [
     "All",
     ...new Set(
@@ -147,14 +149,15 @@ const Home = () => {
 
         {/* Cards */}
         <OpportunityGrid
-          opportunities={filteredOpportunities}
-          onOpportunityClick={(opportunity) =>
-            console.log("Selected:", opportunity)
-          }
+           opportunities={filteredOpportunities}
+           onOpportunityClick={setSelectedOpportunity}
         />
 
         </main>
-
+         <OpportunityDrawer
+          opportunity={selectedOpportunity}
+          onClose={() => setSelectedOpportunity(null)}
+         />
     </div>
   )
 }
