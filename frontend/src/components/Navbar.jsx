@@ -1,4 +1,4 @@
-function Navbar() {
+function Navbar({ onCreateOpportunity }) {
      return (
     <header className="mx-auto flex max-w-6xl items-center justify-between px-5 pt-6">
       
@@ -14,33 +14,21 @@ function Navbar() {
       </div>
 
       {/* Navigation */}
-      <nav className="hidden items-center gap-7 text-sm text-[#9aaaa3] sm:flex">
+      <div className="flex items-center gap-3">
         <a
           href="#"
-          className="font-medium text-[#eaf1ed]"
+          className="hidden text-sm font-medium text-[#eaf1ed] sm:block"
         >
           Opportunities
         </a>
 
-        <a
-          href="#"
-          className="transition-colors hover:text-[#eaf1ed]"
+        <button
+          onClick={onCreateOpportunity}
+          className="rounded-xl bg-[#6fd0a8] px-4 py-2.5 text-sm font-semibold text-[#0b1511] transition hover:brightness-110"
         >
-          Faculty
-        </a>
-
-        <a
-          href="#"
-          className="transition-colors hover:text-[#eaf1ed]"
-        >
-          My applications
-        </a>
-      </nav>
-
-      {/* Sign in */}
-      <button className="rounded-xl bg-[#6fd0a8] px-4 py-2.5 text-sm font-semibold text-[#0b1511] transition hover:brightness-110">
-        Sign in
-      </button>
+          + Create Opportunity
+        </button>
+      </div>
     </header>
   )
 }

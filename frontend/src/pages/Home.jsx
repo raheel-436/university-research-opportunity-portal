@@ -10,7 +10,7 @@ import OpportunityDrawer from "../components/OpportunityDrawer"
 import { getOpportunities } from "../services/api"
 
 
-const Home = () => {
+const Home = ({ onCreateOpportunity }) => {
     const [opportunities, setOpportunities] = useState([])
     const [selectedCategory, setSelectedCategory] = useState("All")
     const [selectedOpportunity, setSelectedOpportunity] = useState(null)
@@ -58,7 +58,9 @@ const Home = () => {
    return (
     <div className="min-h-screen bg-[#0f1714]">
 
-      <Navbar />
+      <Navbar
+        onCreateOpportunity={onCreateOpportunity}
+      />
       <Hero
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
