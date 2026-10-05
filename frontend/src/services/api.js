@@ -8,3 +8,20 @@ export async function getOpportunities() {
 
     return res.json()
 }
+
+export async function createOpportunity(opportunity) {
+    const res = await fetch(`${API_URL}/opportunities`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(opportunity)
+    })
+
+     if (!response.ok) {
+        throw new Error("Failed to create opportunity")
+    }
+
+  return response.json()
+    
+}
