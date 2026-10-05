@@ -1,9 +1,14 @@
 import OpportunityForm from "../components/OpportunityForm"
 
-function CreateOpportunity() {
+function CreateOpportunity({ onBack }) {
   return (
     <div className="min-h-screen bg-[#0f1714] text-[#eaf1ed]">
       <div className="mx-auto max-w-6xl px-5 py-12">
+        <button
+          onClick={onBack}
+          className="mb-8 text-sm text-[#9aaaa3] transition hover:text-[#6fd0a8]"
+        >← Back to Opportunities</button>
+
         <h1 className="font-serif text-4xl">
           Create Opportunity
         </h1>

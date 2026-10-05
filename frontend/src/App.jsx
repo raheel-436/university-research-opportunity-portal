@@ -10,7 +10,9 @@ function App() {
       )}
 
       {currentPage === "create" && (
-        <CreateOpportunity />
+        <CreateOpportunity
+        onBack={() => setCurrentPage("home")}
+        />
       )}
     </>
   )
