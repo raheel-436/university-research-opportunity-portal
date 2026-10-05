@@ -14,6 +14,8 @@ const Home = () => {
     const [opportunities, setOpportunities] = useState([])
     const [selectedCategory, setSelectedCategory] = useState("All")
     const [selectedOpportunity, setSelectedOpportunity] = useState(null)
+    const [searchTerm, setSearchTerm] = useState("")
+
 
     useEffect(() => {
     async function loadOpportunities() {
@@ -37,18 +39,30 @@ const Home = () => {
     ),
   ]
 
-  const filteredOpportunities =
-    selectedCategory === "All"
-      ? opportunities
-      : opportunities.filter(
-          (opportunity) =>
-            opportunity.research_area === selectedCategory
-        )
+  const filteredOpportunities = opportunities.filter((opportunity) => {
+  const matchesCategory =
+    selectedCategory === "All" ||
+    opportunity.research_area === selectedCategory
+
+  const search = searchTerm.toLowerCase()
+
+  const matchesSearch =
+    opportunity.research_title.toLowerCase().includes(search) ||
+    opportunity.faculty_name.toLowerCase().includes(search) ||
+    opportunity.required_skills.toLowerCase().includes(search)
+
+  return matchesCategory && matchesSearch
+})
+
+
    return (
     <div className="min-h-screen bg-[#0f1714]">
 
       <Navbar />
-      <Hero/>
+      <Hero
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+      />
       <Stats/>
 
         <main className="mx-auto max-w-6xl px-5 pb-20">

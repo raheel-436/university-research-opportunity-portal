@@ -1,5 +1,5 @@
 import { motion } from "motion/react"
-const Hero = () => {
+const Hero = ({ searchTerm, onSearchChange }) => {
   return (
     <section className="mx-auto max-w-6xl px-5 pb-8 pt-14">
 
@@ -62,6 +62,8 @@ const Hero = () => {
         <input
           type="text"
           placeholder="Search by title, faculty, or skill..."
+          value={searchTerm}
+          onChange={(event) => onSearchChange(event.target.value)}
           className="w-full bg-transparent text-sm text-[#eaf1ed] outline-none placeholder:text-[#9aaaa3]"
         />
 
