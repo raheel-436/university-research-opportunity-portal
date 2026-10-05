@@ -1,5 +1,20 @@
 import {motion} from "motion/react"
-const Stats = () => {
+const Stats = ({ opportunities }) => {
+  const openPositions = opportunities
+    .filter((opportunity) => opportunity.status === "Open")
+    .reduce(
+      (total, opportunity) =>
+        total + opportunity.available_positions,
+      0
+    )
+
+  const facultyCount = new Set(
+    opportunities.map((opportunity) => opportunity.faculty_name)
+  ).size
+
+  const departmentCount = new Set(
+    opportunities.map((opportunity) => opportunity.department)
+  ).size
   return (
     <motion.div
       initial={{ opacity: 0, y: 16 }}
@@ -10,7 +25,7 @@ const Stats = () => {
 
       <div>
         <div className="font-serif text-3xl text-[#eaf1ed]">
-          42
+          {openPositions}
         </div>
 
         <div className="mt-1 text-xs text-[#9aaaa3]">
@@ -20,7 +35,7 @@ const Stats = () => {
 
       <div>
         <div className="font-serif text-3xl text-[#eaf1ed]">
-          18
+          {facultyCount}
         </div>
 
         <div className="mt-1 text-xs text-[#9aaaa3]">
@@ -30,7 +45,7 @@ const Stats = () => {
 
       <div>
         <div className="font-serif text-3xl text-[#eaf1ed]">
-          9
+          {departmentCount}
         </div>
 
         <div className="mt-1 text-xs text-[#9aaaa3]">

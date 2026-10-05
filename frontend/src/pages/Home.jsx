@@ -63,7 +63,9 @@ const Home = () => {
         searchTerm={searchTerm}
         onSearchChange={setSearchTerm}
       />
-      <Stats/>
+      <Stats
+        opportunities={opportunities}
+      />
 
         <main className="mx-auto max-w-6xl px-5 pb-20">
         {/* Filters */}
