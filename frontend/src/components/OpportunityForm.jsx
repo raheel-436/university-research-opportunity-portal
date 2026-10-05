@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { createOpportunity } from "../services/api"
-function OpportunityForm() {
+function OpportunityForm({ onCreated }) {
     const [formData, setFormData] = useState({
         research_title: "",
         research_description: "",
@@ -12,6 +12,9 @@ function OpportunityForm() {
         application_deadline: "",
     })
 
+    const [successMessage, setSuccessMessage] = useState("")
+    const [errorMessage, setErrorMessage] = useState("")
+
     const handleChange = (event) => {
         const { name, value } = event.target
         setFormData({
@@ -21,24 +24,47 @@ function OpportunityForm() {
     }
 
     const handleSubmit = async (event) => {
-        event.preventDefault()
+    event.preventDefault()
 
-        try {
-            const newOpportunity = {
-            ...formData,
-            available_positions: Number(formData.available_positions),
-            status: "Open",
-            }
-
-            const result = await createOpportunity(newOpportunity)
-
-            console.log("Opportunity created:", result)
-        } catch (error) {
-            console.error(error)
+    try {
+        const newOpportunity = {
+        ...formData,
+        available_positions: Number(formData.available_positions),
+        status: "Open",
         }
+
+        const result = await createOpportunity(newOpportunity)
+
+        console.log("Opportunity created:", result)
+
+        setSuccessMessage("Opportunity created successfully!")
+        setErrorMessage("")
+
+        setTimeout(() => {
+        onCreated()
+        }, 2500)
+
+    } catch (error) {
+        console.error(error)
+
+        setErrorMessage("Failed to create opportunity. Please try again.")
+        setSuccessMessage("")
     }
+}
 
   return (
+    <>
+     {successMessage && (
+      <div className="mb-6 rounded-xl border border-[#6fd0a8] bg-[#1d3a30] px-4 py-3 text-sm text-[#6fd0a8]">
+        ✓ {successMessage}
+      </div>
+    )}
+
+    {errorMessage && (
+      <div className="mb-6 rounded-xl border border-red-400/40 bg-red-400/10 px-4 py-3 text-sm text-red-300">
+        {errorMessage}
+      </div>
+    )}
     <form  onSubmit={handleSubmit} 
         className="mt-8 space-y-6"
     >
@@ -179,6 +205,7 @@ function OpportunityForm() {
         Create Opportunity
       </button>
     </form>
+    </>
   )
 }
 

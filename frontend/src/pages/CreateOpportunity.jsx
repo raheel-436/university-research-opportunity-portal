@@ -17,7 +17,9 @@ function CreateOpportunity({ onBack }) {
           Add a new research opportunity for students.
         </p>
         <div className="mt-8 rounded-[24px] border-2 border-[#6fd0a8] bg-[#16211d] p-6 shadow-[0_0_25px_rgba(111,208,168,0.12)] sm:p-8">
-          <OpportunityForm />
+          <OpportunityForm 
+            onCreated={() => onBack()}
+          />
         </div>
       </div>
     </div>
