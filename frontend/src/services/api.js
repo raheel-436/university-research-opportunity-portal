@@ -18,10 +18,10 @@ export async function createOpportunity(opportunity) {
         body: JSON.stringify(opportunity)
     })
 
-     if (!response.ok) {
+     if (!res.ok) {
         throw new Error("Failed to create opportunity")
     }
 
-  return response.json()
+  return res.json()
     
 }
