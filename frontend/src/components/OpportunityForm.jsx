@@ -1,6 +1,47 @@
+import { useState } from "react"
+import { createOpportunity } from "../services/api"
 function OpportunityForm() {
+    const [formData, setFormData] = useState({
+        research_title: "",
+        research_description: "",
+        research_area: "",
+        faculty_name: "",
+        department: "",
+        required_skills: "",
+        available_positions: "",
+        application_deadline: "",
+    })
+
+    const handleChange = (event) => {
+        const { name, value } = event.target
+        setFormData({
+            ...formData,
+            [name]: value,
+        })
+    }
+
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+
+        try {
+            const newOpportunity = {
+            ...formData,
+            available_positions: Number(formData.available_positions),
+            status: "Open",
+            }
+
+            const result = await createOpportunity(newOpportunity)
+
+            console.log("Opportunity created:", result)
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
   return (
-    <form className="mt-8 space-y-6">
+    <form  onSubmit={handleSubmit} 
+        className="mt-8 space-y-6"
+    >
       {/* Research Title */}
       <div>
         <label className="mb-2 block text-sm font-medium">
@@ -10,6 +51,9 @@ function OpportunityForm() {
         <input
           type="text"
           placeholder="Enter research title"
+          name="research_title"
+          value={formData.research_title}
+          onChange={handleChange}
           className="w-full rounded-xl border border-[#26352f] bg-[#16211d] px-4 py-3 text-[#eaf1ed] outline-none placeholder:text-[#9aaaa3] focus:border-[#6fd0a8]"
         />
       </div>
@@ -23,6 +67,9 @@ function OpportunityForm() {
         <textarea
           rows="5"
           placeholder="Describe the research opportunity"
+          name="research_description"
+          value={formData.research_description}
+          onChange={handleChange}
           className="w-full resize-none rounded-xl border border-[#26352f] bg-[#16211d] px-4 py-3 text-[#eaf1ed] outline-none placeholder:text-[#9aaaa3] focus:border-[#6fd0a8]"
         />
       </div>
@@ -36,6 +83,9 @@ function OpportunityForm() {
         <input
           type="text"
           placeholder="e.g. Artificial Intelligence"
+          name="research_area"
+          value={formData.research_area}
+          onChange={handleChange}
           className="w-full rounded-xl border border-[#26352f] bg-[#16211d] px-4 py-3 text-[#eaf1ed] outline-none placeholder:text-[#9aaaa3] focus:border-[#6fd0a8]"
         />
       </div>
@@ -49,6 +99,9 @@ function OpportunityForm() {
         <input
           type="text"
           placeholder="Enter faculty member's name"
+          name="faculty_name"
+          value={formData.faculty_name}
+          onChange={handleChange}
           className="w-full rounded-xl border border-[#26352f] bg-[#16211d] px-4 py-3 text-[#eaf1ed] outline-none placeholder:text-[#9aaaa3] focus:border-[#6fd0a8]"
         />
       </div>
@@ -62,6 +115,9 @@ function OpportunityForm() {
         <input
           type="text"
           placeholder="e.g. Computer Science"
+          name="department"
+          value={formData.department}
+          onChange={handleChange}
           className="w-full rounded-xl border border-[#26352f] bg-[#16211d] px-4 py-3 text-[#eaf1ed] outline-none placeholder:text-[#9aaaa3] focus:border-[#6fd0a8]"
         />
       </div>
@@ -75,6 +131,9 @@ function OpportunityForm() {
         <input
           type="text"
           placeholder="e.g. Python, Machine Learning"
+          name="required_skills"
+          value={formData.required_skills}
+          onChange={handleChange}
           className="w-full rounded-xl border border-[#26352f] bg-[#16211d] px-4 py-3 text-[#eaf1ed] outline-none placeholder:text-[#9aaaa3] focus:border-[#6fd0a8]"
         />
       </div>
@@ -90,6 +149,9 @@ function OpportunityForm() {
             type="number"
             min="1"
             placeholder="e.g. 2"
+            name="available_positions"
+            value={formData.available_positions}
+            onChange={handleChange}
             className="w-full rounded-xl border border-[#26352f] bg-[#16211d] px-4 py-3 text-[#eaf1ed] outline-none placeholder:text-[#9aaaa3] focus:border-[#6fd0a8]"
           />
         </div>
@@ -101,6 +163,9 @@ function OpportunityForm() {
 
           <input
             type="date"
+            name="application_deadline"
+            value={formData.application_deadline}
+            onChange={handleChange}
             className="w-full rounded-xl border border-[#26352f] bg-[#16211d] px-4 py-3 text-[#eaf1ed] outline-none focus:border-[#6fd0a8]"
           />
         </div>
