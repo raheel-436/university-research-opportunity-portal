@@ -1,16 +1,22 @@
 import { useState } from "react"
 import { createOpportunity } from "../services/api"
-function OpportunityForm({ onCreated }) {
+function OpportunityForm({ onCreated, initialData, onSubmit }) {
+    // Passing initialData switches the form into edit mode
+    const isEditing = Boolean(initialData)
+
     const [formData, setFormData] = useState({
-        research_title: "",
-        research_description: "",
-        research_area: "",
-        faculty_name: "",
-        department: "",
-        required_skills: "",
-        available_positions: "",
-        application_deadline: "",
+        research_title: initialData?.research_title ?? "",
+        research_description: initialData?.research_description ?? "",
+        research_area: initialData?.research_area ?? "",
+        faculty_name: initialData?.faculty_name ?? "",
+        department: initialData?.department ?? "",
+        required_skills: initialData?.required_skills ?? "",
+        available_positions: initialData?.available_positions ?? "",
+        application_deadline: String(initialData?.application_deadline ?? "").slice(0, 10),
+        status: initialData?.status ?? "Open",
     })
+
+    const [submitting, setSubmitting] = useState(false)
 
     const [successMessage, setSuccessMessage] = useState("")
     const [errorMessage, setErrorMessage] = useState("")
@@ -70,14 +76,21 @@ function OpportunityForm({ onCreated }) {
             return
         }
 
+        setSubmitting(true)
+
         try {
-            const newOpportunity = {
+            const payload = {
             ...formData,
             available_positions: Number(formData.available_positions),
-            status: "Open",
             }
 
-            const result = await createOpportunity(newOpportunity)
+            // Edit mode: hand the data to the parent, which saves and closes the form
+            if (isEditing) {
+                await onSubmit(payload)
+                return
+            }
+
+            const result = await createOpportunity(payload)
 
             console.log("Opportunity created:", result)
 
@@ -91,8 +104,13 @@ function OpportunityForm({ onCreated }) {
         } catch (error) {
             console.error(error)
 
-            setErrorMessage("Failed to create opportunity. Please try again.")
+            setErrorMessage(
+                isEditing
+                    ? "Failed to save changes. Please try again."
+                    : "Failed to create opportunity. Please try again."
+            )
             setSuccessMessage("")
+            setSubmitting(false)
         }
     }
 
@@ -231,6 +249,25 @@ function OpportunityForm({ onCreated }) {
         </div>
       </div>
 
+      {/* Status (edit mode only) */}
+      {isEditing && (
+        <div>
+          <label className="mb-2 block text-sm font-medium">
+            Status
+          </label>
+
+          <select
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            className="w-full rounded-xl border border-[#26352f] bg-[#16211d] px-4 py-3 text-[#eaf1ed] outline-none focus:border-[#6fd0a8]"
+          >
+            <option value="Open">Open</option>
+            <option value="Closed">Closed</option>
+          </select>
+        </div>
+      )}
+
        {successMessage && (
         <div className="mb-6 rounded-xl border border-[#6fd0a8] bg-[#1d3a30] px-4 py-3 text-sm text-[#6fd0a8]">
             ✓ {successMessage}
@@ -246,9 +283,14 @@ function OpportunityForm({ onCreated }) {
       {/* Submit */}
       <button
         type="submit"
-        className="w-full rounded-xl bg-[#6fd0a8] px-5 py-3 font-semibold text-[#0b1511] transition hover:brightness-110"
+        disabled={submitting}
+        className="w-full rounded-xl bg-[#6fd0a8] px-5 py-3 font-semibold text-[#0b1511] transition hover:brightness-110 disabled:opacity-60"
       >
-        Create Opportunity
+        {submitting
+          ? "Saving..."
+          : isEditing
+            ? "Save changes"
+            : "Create Opportunity"}
       </button>
     </form>
     </>

@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "motion/react";
 
 
-const OpportunityDrawer = ({opportunity,onClose,onEdit }) => {
+const OpportunityDrawer = ({opportunity,onClose,onEdit,onDelete }) => {
    return (
     <AnimatePresence>
       {opportunity && (
@@ -107,12 +107,21 @@ const OpportunityDrawer = ({opportunity,onClose,onEdit }) => {
             </div>
 
             {/* Action */}
-            <button
+            <div className="my-4 flex gap-3">
+              <button
                 onClick={() => onEdit(opportunity)}
-                className="w-full rounded-xl border my-4 border-[#6fd0a8] px-5 py-3 font-semibold text-[#6fd0a8] transition hover:bg-[#1d3a30]"
+                className="flex-1 rounded-xl border border-[#6fd0a8] px-5 py-3 font-semibold text-[#6fd0a8] transition hover:bg-[#1d3a30]"
               >
                 Edit Opportunity
-            </button>
+              </button>
+ 
+              <button
+                onClick={() => onDelete(opportunity)}
+                className="flex-1 rounded-xl border border-red-400/60 px-5 py-3 font-semibold text-red-300 transition hover:bg-red-500/10"
+              >
+                Delete Opportunity
+              </button>
+            </div>
           </motion.aside>
         </>
       )}

@@ -1,19 +1,30 @@
 import { useEffect ,useState } from "react"
+import { AnimatePresence } from "motion/react"
 
-import Navbar from "../components/navbar"
+import Navbar from "../components/Navbar"
 import Hero from "../components/Hero"
 import Stats from "../components/Stats"
 import CategoryFilters from "../components/CategoryFilters"
 import OpportunityGrid from "../components/OpportunityGrid"
 import OpportunityDrawer from "../components/OpportunityDrawer"
+import EditOpportunityModal from "../components/EditOpportunityModal"
+import ConfirmDialog from "../components/ConfirmDialog"
 
-import { getOpportunities } from "../services/api"
+import {
+  getOpportunities,
+  updateOpportunity,
+  deleteOpportunity,
+} from "../services/api"
 
 
 const Home = ({ onCreateOpportunity }) => {
     const [opportunities, setOpportunities] = useState([])
     const [selectedCategory, setSelectedCategory] = useState("All")
     const [selectedOpportunity, setSelectedOpportunity] = useState(null)
+    const [editingOpportunity, setEditingOpportunity] = useState(null)
+    const [deletingOpportunity, setDeletingOpportunity] = useState(null)
+    const [isDeleting, setIsDeleting] = useState(false)
+    const [deleteError, setDeleteError] = useState("")
     const [searchTerm, setSearchTerm] = useState("")
 
 
@@ -29,6 +40,47 @@ const Home = ({ onCreateOpportunity }) => {
 
       loadOpportunities()
     }, [])
+
+
+    const handleDelete = (opportunity) => {
+      setDeleteError("")
+      setDeletingOpportunity(opportunity)
+    }
+
+    const cancelDelete = () => {
+      if (!isDeleting) setDeletingOpportunity(null)
+    }
+
+
+    const confirmDelete = async () => {
+      setIsDeleting(true)
+      setDeleteError("")
+
+      try {
+        await deleteOpportunity(deletingOpportunity.id)
+        setOpportunities((prev) =>
+          prev.filter((item) => item.id !== deletingOpportunity.id)
+        )
+        setSelectedOpportunity(null)
+        setDeletingOpportunity(null)
+      } catch (error) {
+        console.error(error)
+        setDeleteError("Could not delete the opportunity. Please try again.")
+      } finally {
+        setIsDeleting(false)
+      }
+    }
+
+  
+    const handleSave = async (id, values) => {
+      const updated = await updateOpportunity(id, values)
+
+      setOpportunities((prev) =>
+        prev.map((item) => (item.id === id ? updated : item))
+      )
+      setSelectedOpportunity(updated)
+      setEditingOpportunity(null)
+    }
 
     const categories = [
     "All",
@@ -101,7 +153,32 @@ const Home = ({ onCreateOpportunity }) => {
          <OpportunityDrawer
           opportunity={selectedOpportunity}
           onClose={() => setSelectedOpportunity(null)}
+          onEdit={setEditingOpportunity}
+          onDelete={handleDelete}
          />
+
+         {editingOpportunity && (
+           <EditOpportunityModal
+             key={editingOpportunity.id}
+             opportunity={editingOpportunity}
+             onSave={handleSave}
+             onClose={() => setEditingOpportunity(null)}
+           />
+         )}
+
+         <AnimatePresence>
+           {deletingOpportunity && (
+             <ConfirmDialog
+               title="Delete this opportunity?"
+               message={`"${deletingOpportunity.research_title}" will be permanently removed. This can't be undone.`}
+               confirmLabel="Delete opportunity"
+               loading={isDeleting}
+               error={deleteError}
+               onConfirm={confirmDelete}
+               onCancel={cancelDelete}
+             />
+           )}
+         </AnimatePresence>
     </div>
   )
 }
