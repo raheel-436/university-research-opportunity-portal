@@ -23,48 +23,82 @@ function OpportunityForm({ onCreated }) {
         })
     }
 
-    const handleSubmit = async (event) => {
-    event.preventDefault()
-
-    try {
-        const newOpportunity = {
-        ...formData,
-        available_positions: Number(formData.available_positions),
-        status: "Open",
+    const validateForm = () => {
+        if (!formData.research_title.trim()) {
+            return "Research title is required."
         }
 
-        const result = await createOpportunity(newOpportunity)
+        if (!formData.research_description.trim()) {
+            return "Research description is required."
+        }
 
-        console.log("Opportunity created:", result)
+        if (!formData.research_area.trim()) {
+            return "Research area is required."
+        }
 
-        setSuccessMessage("Opportunity created successfully!")
-        setErrorMessage("")
+        if (!formData.faculty_name.trim()) {
+            return "Faculty member is required."
+        }
 
-        setTimeout(() => {
-        onCreated()
-        }, 2500)
+        if (!formData.department.trim()) {
+            return "Department is required."
+        }
 
-    } catch (error) {
-        console.error(error)
+        if (!formData.required_skills.trim()) {
+            return "Required skills are required."
+        }
 
-        setErrorMessage("Failed to create opportunity. Please try again.")
-        setSuccessMessage("")
+        if (!formData.available_positions) {
+            return "Available positions are required."
+        }
+
+        if (!formData.application_deadline) {
+            return "Application deadline is required."
+        }
+
+        return ""
     }
-}
+
+    const handleSubmit = async (event) => {
+        event.preventDefault()
+
+        const validationError = validateForm()
+
+        if (validationError) {
+            setErrorMessage(validationError)
+            setSuccessMessage("")
+            return
+        }
+
+        try {
+            const newOpportunity = {
+            ...formData,
+            available_positions: Number(formData.available_positions),
+            status: "Open",
+            }
+
+            const result = await createOpportunity(newOpportunity)
+
+            console.log("Opportunity created:", result)
+
+            setSuccessMessage("Opportunity created successfully!")
+            setErrorMessage("")
+
+            setTimeout(() => {
+            onCreated()
+            }, 2500)
+
+        } catch (error) {
+            console.error(error)
+
+            setErrorMessage("Failed to create opportunity. Please try again.")
+            setSuccessMessage("")
+        }
+    }
 
   return (
     <>
-     {successMessage && (
-      <div className="mb-6 rounded-xl border border-[#6fd0a8] bg-[#1d3a30] px-4 py-3 text-sm text-[#6fd0a8]">
-        ✓ {successMessage}
-      </div>
-    )}
-
-    {errorMessage && (
-      <div className="mb-6 rounded-xl border border-red-400/40 bg-red-400/10 px-4 py-3 text-sm text-red-300">
-        {errorMessage}
-      </div>
-    )}
+    
     <form  onSubmit={handleSubmit} 
         className="mt-8 space-y-6"
     >
@@ -196,6 +230,18 @@ function OpportunityForm({ onCreated }) {
           />
         </div>
       </div>
+
+       {successMessage && (
+        <div className="mb-6 rounded-xl border border-[#6fd0a8] bg-[#1d3a30] px-4 py-3 text-sm text-[#6fd0a8]">
+            ✓ {successMessage}
+        </div>
+        )}
+
+        {errorMessage && (
+        <div className="mb-6 rounded-xl border border-red-400/40 bg-red-400/10 px-4 py-3 text-sm text-red-300">
+            {errorMessage}
+        </div>
+        )}
 
       {/* Submit */}
       <button

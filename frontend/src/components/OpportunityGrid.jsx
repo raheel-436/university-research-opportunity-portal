@@ -1,5 +1,5 @@
 import OpportunityCard from "./OpportunityCard";
-const OpportunityGrid = ({ opportunities, onOpportunityClick }) => {
+const OpportunityGrid = ({ opportunities, onOpportunityClick}) => {
     if (opportunities.length === 0) {
     return (
       <p className="col-span-full py-16 text-center text-[#9aaaa3]">

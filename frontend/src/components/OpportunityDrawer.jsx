@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "motion/react";
 
 
-const OpportunityDrawer = ({opportunity,onClose}) => {
+const OpportunityDrawer = ({opportunity,onClose,onEdit }) => {
    return (
     <AnimatePresence>
       {opportunity && (
@@ -108,16 +108,10 @@ const OpportunityDrawer = ({opportunity,onClose}) => {
 
             {/* Action */}
             <button
-              disabled={opportunity.status === "Closed"}
-              className={`mt-8 w-full rounded-xl px-5 py-3 font-semibold transition ${
-                opportunity.status === "Closed"
-                  ? "cursor-not-allowed bg-[#26352f] text-[#8d9792]"
-                  : "bg-[#6fd0a8] text-[#0b1511] hover:brightness-110"
-              }`}
-            >
-              {opportunity.status === "Closed"
-                ? "Applications closed"
-                : "Apply for this position"}
+                onClick={() => onEdit(opportunity)}
+                className="w-full rounded-xl border my-4 border-[#6fd0a8] px-5 py-3 font-semibold text-[#6fd0a8] transition hover:bg-[#1d3a30]"
+              >
+                Edit Opportunity
             </button>
           </motion.aside>
         </>
