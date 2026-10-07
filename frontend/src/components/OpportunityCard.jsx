@@ -102,7 +102,7 @@ const OpportunityCard = ({ opportunity, onClick }) => {
           </div>
 
           {/* Arrow */}
-          <div className="grid h-[38px] w-[38px] shrink-0 place-items-center rounded-full border border-[#26352f] text-[#eaf1ed] transition hover:bg-[#6fd0a8] hover:text-[#0b1511]">
+          <div className="grid h-9.5 w-9.5 shrink-0 place-items-center rounded-full border border-[#26352f] text-[#eaf1ed] transition hover:bg-[#6fd0a8] hover:text-[#0b1511]">
             →
           </div>
 
