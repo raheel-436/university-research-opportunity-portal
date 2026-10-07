@@ -20,8 +20,24 @@ export async function createOpportunity(opportunity) {
 
      if (!res.ok) {
         throw new Error("Failed to create opportunity")
-    }
+        }
 
   return res.json()
     
+}
+
+export async function updateOpportunity(id,opportunity) {
+    const res = await fetch(`${API_URL}/opportunities/${id}`,{
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(opportunity)
+    })
+
+     if (!res.ok) {
+        throw new Error("Failed to update opportunity")
+       }
+    
+    return res.json()
 }
