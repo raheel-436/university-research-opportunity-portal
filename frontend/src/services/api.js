@@ -41,3 +41,15 @@ export async function updateOpportunity(id,opportunity) {
     
     return res.json()
 }
+
+export async function deleteOpportunity(id) {
+    const res = await fetch(`${API_URL}/opportunities/${id}`, {
+        method: "DELETE",
+    })
+
+    if (!res.ok) {
+        throw new Error("Failed to delete opportunity")
+    }
+
+    return res.json()
+}
