@@ -24,7 +24,7 @@ const ConfirmDialog = ({
       role="alertdialog"
       aria-modal="true"
       aria-labelledby="confirm-title"
-      className="fixed inset-0 z-[70] grid place-items-center p-4"
+      className="fixed inset-0 z-70 grid place-items-center p-4"
     >
       {/* Overlay */}
       <motion.div

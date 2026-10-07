@@ -44,7 +44,7 @@ const EditOpportunityModal = ({ opportunity, onSave, onClose }) => {
   }
 
   return (
-    <div className="fixed inset-0 z-[60] grid place-items-center p-4">
+    <div className="fixed inset-0 z-60 grid place-items-center p-4">
       {/* Overlay */}
       <motion.div
         initial={{ opacity: 0 }}

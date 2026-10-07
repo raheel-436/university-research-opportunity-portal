@@ -24,7 +24,7 @@ const OpportunityDrawer = ({opportunity,onClose,onEdit,onDelete }) => {
               duration: 0.4,
               ease: [0.2, 0.7, 0.2, 1],
             }}
-            className="fixed right-0 top-0 z-50 h-full w-full overflow-y-auto border-l border-[#26352f] bg-[#16211d] p-7 text-[#eaf1ed] sm:max-w-[520px]"
+            className="fixed right-0 top-0 z-50 h-full w-full overflow-y-auto border-l border-[#26352f] bg-[#16211d] p-7 text-[#eaf1ed] sm:max-w-130"
           >
             {/* Close */}
             <button
