@@ -1,4 +1,5 @@
-from pydantic import BaseModel
+from typing import Literal
+from pydantic import BaseModel, Field
 from datetime import date
 
 
@@ -9,9 +10,9 @@ class OpportunityBase(BaseModel):
     faculty_name: str
     department: str
     required_skills: str
-    available_positions: int
+    available_positions: int = Field(gt=0)
     application_deadline: date
-    status: str = "Open"
+    status: Literal["Open", "Closed"] = "Open"
 
 
 class OpportunityCreate(OpportunityBase):

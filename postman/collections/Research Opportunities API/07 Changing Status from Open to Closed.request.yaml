@@ -1,0 +1,33 @@
+$kind: http-request
+url: "{{base_url}}/opportunities/{{opportunity_id}}"
+method: PUT
+body:
+  type: json
+  content: "{\r
+
+    \    \"research_title\": \"Retrivel Augmented Generation for Legal Documents(Updated)\",\r
+
+    \    \"research_description\": \"Building RAG pipelines for legal text search.\",\r
+
+    \    \"research_area\": \"NLP\",\r
+
+    \    \"faculty_name\": \"Dr. Sara Malik\",\r
+
+    \    \"department\": \"Software Engineering\",\r
+
+    \    \"required_skills\": \"Python, NLP, LLMs\",\r
+
+    \    \"available_positions\": \"5\",\r
+
+    \    \"application_deadline\": \"2026-12-05\",\r
+
+    \    \"status\": \"Closed\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"200 OK\",()=>pm.response.to.have.status(200));\r
+
+      pm.test(\"Status is Closed\", () => pm.expect(pm.response.json().status).to.eql(\"Closed\"));"
+    language: text/javascript
+order: 4433800737157672

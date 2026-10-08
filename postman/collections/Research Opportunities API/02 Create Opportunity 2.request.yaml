@@ -1,0 +1,35 @@
+$kind: http-request
+description: ""
+url: "{{base_url}}/opportunities"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"research_title\": \"Federated Learning for IOMT Security\",\r
+
+    \    \"research_description\": \"Privacy-preserving intrusion detection for
+    medical devices\",\r
+
+    \    \"research_area\": \"IOT\",\r
+
+    \    \"faculty_name\": \"Dr. Raheel\",\r
+
+    \    \"department\": \"Computer Science\",\r
+
+    \    \"required_skills\": \"Python, Arduino, Networking\",\r
+
+    \    \"available_positions\": \"2\",\r
+
+    \    \"application_deadline\": \"2026-11-30\",\r
+
+    \    \"status\": \"Open\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status Code 201\", ()=>pm.response.to.have.status(201))\r
+
+      pm.collectionVariables.set(\"opportunity_id\", pm.response.json().id)"
+    language: text/javascript
+order: 3000

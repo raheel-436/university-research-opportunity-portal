@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{base_url}}/opportunities/{{opportunity_id}}"
+method: GET
+body:
+  type: json
+  content: ""
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r
+
+      pm.test(\"Returned ID matches the requested ID\", () => pm.expect(pm.response.json().id).to.eql(Number(pm.collectionVariables.get(\"opportunity_id\"))));"
+    language: text/javascript
+order: 4148125751341436

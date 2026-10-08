@@ -1,0 +1,35 @@
+$kind: http-request
+url: "{{base_url}}/opportunities"
+method: POST
+body:
+  type: json
+  content: "{\r
+
+    \    \"research_title\": \"Retrivel Augmented Generation for Legal
+    Documents\",\r
+
+    \    \"research_description\": \"Building RAG pipelines for legal text
+    search.\",\r
+
+    \    \"research_area\": \"NLP\",\r
+
+    \    \"faculty_name\": \"Dr. Sara Malik\",\r
+
+    \    \"department\": \"Software Engineering\",\r
+
+    \    \"required_skills\": \"Python, NLP, LLMs\",\r
+
+    \    \"available_positions\": \"1\",\r
+
+    \    \"application_deadline\": \"2026-12-05\",\r
+
+    \    \"status\": \"Open\"\r
+
+    }"
+scripts:
+  - type: afterResponse
+    code: "pm.test(\"Status Code 201\", ()=>pm.response.to.have.status(201))\r
+
+      pm.collectionVariables.set(\"opportunity_id\", pm.response.json().id)"
+    language: text/javascript
+order: 1000

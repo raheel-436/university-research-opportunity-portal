@@ -1,0 +1,20 @@
+$kind: http-request
+url: "{{base_url}}/opportunities"
+method: POST
+body:
+  type: json
+  content: |-
+    {
+      "research_description": "Missing Title in my Opportunity",
+      "research_area": "NLP",
+      "faculty_name": "Dr. Sara Malik",
+      "department": "Software Engineering",
+      "required_skills": "Python",
+      "available_positions": 2,
+      "application_deadline": "2026-12-05"
+    }
+scripts:
+  - type: afterResponse
+    code: pm.test("422 Unprocessable Entity", () => pm.response.to.have.status(422));
+    language: text/javascript
+order: 4499727482838348
