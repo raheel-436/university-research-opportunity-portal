@@ -1,0 +1,179 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Research Opportunities API",
+    "version": "1.0.0",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "{{base_url}}"
+    }
+  ],
+  "paths": {
+    "/opportunities": {
+      "post": {
+        "summary": "01 Create Opportunity 1",
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "research_title": {
+                    "type": "string"
+                  },
+                  "research_description": {
+                    "type": "string"
+                  },
+                  "research_area": {
+                    "type": "string"
+                  },
+                  "faculty_name": {
+                    "type": "string"
+                  },
+                  "department": {
+                    "type": "string"
+                  },
+                  "required_skills": {
+                    "type": "string"
+                  },
+                  "available_positions": {
+                    "type": "string",
+                    "format": "utc-millisec"
+                  },
+                  "application_deadline": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "status": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "research_title": "Retrivel Augmented Generation for Legal Documents",
+                "research_description": "Building RAG pipelines for legal text search.",
+                "research_area": "NLP",
+                "faculty_name": "Dr. Sara Malik",
+                "department": "Software Engineering",
+                "required_skills": "Python, NLP, LLMs",
+                "available_positions": "1",
+                "application_deadline": "2026-12-05",
+                "status": "Open"
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "04 Retrieve All Opportunities",
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/opportunities/{opportunity_id}": {
+      "get": {
+        "summary": "05 Get One Opportunity By ID",
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      },
+      "parameters": [
+        {
+          "name": "opportunity_id",
+          "in": "path",
+          "required": true,
+          "schema": {
+            "type": "string"
+          },
+          "example": ""
+        }
+      ],
+      "put": {
+        "summary": "06 Update an Existing Opportunity",
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "research_title": {
+                    "type": "string"
+                  },
+                  "research_description": {
+                    "type": "string"
+                  },
+                  "research_area": {
+                    "type": "string"
+                  },
+                  "faculty_name": {
+                    "type": "string"
+                  },
+                  "department": {
+                    "type": "string"
+                  },
+                  "required_skills": {
+                    "type": "string"
+                  },
+                  "available_positions": {
+                    "type": "string",
+                    "format": "utc-millisec"
+                  },
+                  "application_deadline": {
+                    "type": "string",
+                    "format": "date"
+                  },
+                  "status": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "research_title": "Retrivel Augmented Generation for Legal Documents(Updated)",
+                "research_description": "Building RAG pipelines for legal text search.",
+                "research_area": "NLP",
+                "faculty_name": "Dr. Sara Malik",
+                "department": "Software Engineering",
+                "required_skills": "Python, NLP, LLMs",
+                "available_positions": "5",
+                "application_deadline": "2026-12-05",
+                "status": "Open"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "08 Delete an Opportunity",
+        "responses": {},
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
